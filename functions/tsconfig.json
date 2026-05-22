@@ -1,18 +1,19 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "esModuleInterop": true,
-    "moduleResolution": "nodenext",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "outDir": "lib",
-    "rootDir": "src",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2017"
+    "rootDir": "src"
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src/index.ts"
+  ],
+  "references": [
+    {
+      "path": "./src/framework"
+    },
+    {
+      "path": "./src/modules/health"
+    }
   ]
 }

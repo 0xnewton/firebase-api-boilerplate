@@ -1,0 +1,28 @@
+export class HttpError extends Error {
+  constructor(
+    message: string,
+    readonly statusCode: number,
+    readonly code = "HTTP_ERROR",
+    readonly data?: unknown
+  ) {
+    super(message);
+  }
+}
+
+export class RouteNotFoundError extends HttpError {
+  constructor(method: string, path: string) {
+    super(`Route not found for ${method} ${path}`, 404, "ROUTE_NOT_FOUND");
+  }
+}
+
+export class UnauthorizedError extends HttpError {
+  constructor(message = "Unauthorized") {
+    super(message, 401, "UNAUTHORIZED");
+  }
+}
+
+export class ValidationError extends HttpError {
+  constructor(error: unknown) {
+    super("Invalid request", 422, "VALIDATION_ERROR", error);
+  }
+}
