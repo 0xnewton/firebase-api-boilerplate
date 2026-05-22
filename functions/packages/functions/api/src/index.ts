@@ -1,5 +1,5 @@
-import {setGlobalOptions} from "firebase-functions";
-import {onRequest} from "firebase-functions/https";
+import {setGlobalOptions} from "firebase-functions/v2";
+import {onRequest} from "firebase-functions/v2/https";
 
 import {createHttpRouter} from "@app/backend-framework";
 import {HealthController} from "./modules/health";
