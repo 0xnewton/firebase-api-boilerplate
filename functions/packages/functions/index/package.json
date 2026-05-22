@@ -1,0 +1,16 @@
+{
+  "name": "@app/functions-index",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@app/api-function": "1.0.0"
+  }
+}

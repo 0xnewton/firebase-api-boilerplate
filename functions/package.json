@@ -22,7 +22,7 @@
   "engines": {
     "node": "24"
   },
-  "main": "packages/functions/api/dist/index.js",
+  "main": "packages/functions/index/dist/index.js",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
