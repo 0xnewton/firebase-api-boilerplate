@@ -7,7 +7,7 @@ This repo is a Firebase/GCP backend boilerplate with real npm workspace package 
 ```txt
 functions/
   packages/
-    lib/
+    platform/
       backend-framework/
     services/
       health/
@@ -15,7 +15,7 @@ functions/
       api/
 ```
 
-- `packages/lib/*`: reusable infrastructure libraries.
+- `packages/platform/*`: reusable infrastructure/platform packages.
 - `packages/services/*`: shared business/service packages.
 - `packages/functions/*`: deployable Firebase function packages.
 
