@@ -8,9 +8,10 @@ import {
 } from "./errors";
 import type {HttpMethod, RouteArgs} from "./http";
 import {composeMiddlewares, Middleware} from "./middleware";
+import {success} from "./response";
 import {getRegisteredRoutes} from "./route";
 
-type HttpRequest = {
+export type HttpRequest = {
   method: string;
   path?: string;
   url: string;
@@ -19,7 +20,7 @@ type HttpRequest = {
   body?: unknown;
 };
 
-type HttpResponse = {
+export type HttpResponse = {
   status(code: number): HttpResponse;
   set(headers: Record<string, string>): HttpResponse;
   json(body: unknown): void;
@@ -141,7 +142,8 @@ function buildRouteMiddleware(
     }
 
     const handler = candidate as ControllerMethod;
-    context.response.body = await handler.call(controller, routeArgs);
+    const data = await handler.call(controller, routeArgs);
+    context.response.body = success(data);
     context.response.statusCode = route.successStatusCode ?? 200;
   };
 }

@@ -6,7 +6,13 @@
   },
   "include": [
     "*.ts",
-    "controllers/*.ts"
+    "controllers/*.ts",
+    "services/*.ts"
+  ],
+  "exclude": [
+    "*.test.ts",
+    "controllers/*.test.ts",
+    "services/*.test.ts"
   ],
   "references": [
     {

@@ -23,6 +23,22 @@ export class UnauthorizedError extends HttpError {
 
 export class ValidationError extends HttpError {
   constructor(error: unknown) {
-    super("Invalid request", 422, "VALIDATION_ERROR", error);
+    super("Invalid request", 422, "VALIDATION_ERROR", toErrorData(error));
   }
+}
+
+function toErrorData(error: unknown): Record<string, unknown> {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+    };
+  }
+
+  if (error && typeof error === "object") {
+    return error as Record<string, unknown>;
+  }
+
+  return {
+    message: String(error),
+  };
 }

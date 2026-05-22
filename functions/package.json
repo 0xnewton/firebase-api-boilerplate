@@ -4,6 +4,8 @@
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc -b",
     "build:watch": "tsc -b --watch",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build:test && node --test \"lib-tests/src/**/*.test.js\"",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",

@@ -1,5 +1,6 @@
 # Compiled output
 lib/
+lib-tests/
 *.tsbuildinfo
 
 # TypeScript v1 declaration files
