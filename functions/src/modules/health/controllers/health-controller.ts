@@ -1,5 +1,5 @@
 import {Controller, RequestContext, Route} from "../../../framework";
-import {HealthService} from "../services";
+import {HealthService} from "../../../services/health";
 
 export class HealthController extends Controller {
   private healthService!: HealthService;

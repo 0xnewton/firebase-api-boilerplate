@@ -1,23 +1,18 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../lib/modules/health",
+    "outDir": "../../../lib/services/health",
     "rootDir": "."
   },
   "include": [
-    "*.ts",
-    "controllers/*.ts"
+    "*.ts"
   ],
   "exclude": [
-    "*.test.ts",
-    "controllers/*.test.ts"
+    "*.test.ts"
   ],
   "references": [
     {
       "path": "../../framework"
-    },
-    {
-      "path": "../../services/health"
     }
   ]
 }

@@ -13,6 +13,9 @@
       "path": "./src/framework"
     },
     {
+      "path": "./src/services/health"
+    },
+    {
       "path": "./src/modules/health"
     }
   ]
