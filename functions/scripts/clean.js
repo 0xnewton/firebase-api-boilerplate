@@ -6,7 +6,7 @@ const root = process.cwd();
 const pathsToRemove = [
   "lib",
   "lib-tests",
-  "tsconfig.tsbuildinfo",
+  ...findRootBuildInfoFiles(root),
   ...findGeneratedFiles(path.join(root, "packages")),
 ];
 
@@ -15,6 +15,12 @@ for (const relativePath of pathsToRemove) {
     force: true,
     recursive: true,
   });
+}
+
+function findRootBuildInfoFiles(directory) {
+  return fs.readdirSync(directory, {withFileTypes: true})
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".tsbuildinfo"))
+    .map((entry) => entry.name);
 }
 
 function findGeneratedFiles(directory) {

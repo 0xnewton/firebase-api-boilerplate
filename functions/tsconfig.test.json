@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "lib-tests",
     "rootDir": "packages",
+    "tsBuildInfoFile": "lib-tests/tsconfig.test.tsbuildinfo",
     "types": [
       "node"
     ]
