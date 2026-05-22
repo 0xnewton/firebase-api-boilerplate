@@ -1,4 +1,4 @@
-import type {RequestContext} from "../../framework";
+import type {RequestContext} from "@app/backend-framework";
 
 export class HealthService {
   constructor(private readonly context: RequestContext) {}

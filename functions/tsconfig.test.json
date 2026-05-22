@@ -1,13 +1,17 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "outDir": "lib-tests",
-    "rootDir": ".",
+    "rootDir": "packages",
     "types": [
       "node"
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "packages/**/*.ts"
+  ],
+  "exclude": [
+    "packages/**/dist"
   ]
 }

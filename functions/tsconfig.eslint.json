@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  },
   "include": [
     ".eslintrc.js",
-    "src/**/*.ts"
+    "packages/**/*.ts"
   ]
 }

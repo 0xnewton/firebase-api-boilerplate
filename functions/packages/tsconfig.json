@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./lib"
+    },
+    {
+      "path": "./services"
+    },
+    {
+      "path": "./functions"
+    }
+  ]
+}

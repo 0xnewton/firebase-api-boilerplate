@@ -1,22 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "lib",
-    "rootDir": "src"
-  },
   "compileOnSave": true,
-  "include": [
-    "src/index.ts"
-  ],
+  "files": [],
   "references": [
     {
-      "path": "./src/framework"
-    },
-    {
-      "path": "./src/services/health"
-    },
-    {
-      "path": "./src/modules/health"
+      "path": "./packages"
     }
   ]
 }

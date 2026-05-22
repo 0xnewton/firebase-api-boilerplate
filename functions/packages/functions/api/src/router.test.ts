@@ -10,8 +10,8 @@ import {
   Route,
   RouteArgs,
   Schema,
-} from "./index";
-import {HealthController} from "../modules/health";
+} from "@app/backend-framework";
+import {HealthController} from "./modules/health";
 
 class TestResponse implements HttpResponse {
   statusCode = 0;

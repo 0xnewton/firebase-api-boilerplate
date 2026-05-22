@@ -1,7 +1,7 @@
 import {setGlobalOptions} from "firebase-functions";
 import {onRequest} from "firebase-functions/https";
 
-import {createHttpRouter} from "./framework";
+import {createHttpRouter} from "@app/backend-framework";
 import {HealthController} from "./modules/health";
 
 setGlobalOptions({maxInstances: 10});

@@ -1,20 +1,20 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../lib/modules/health",
-    "rootDir": "."
+    "ignoreDeprecations": "6.0",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true
   },
   "include": [
-    "*.ts",
-    "controllers/*.ts"
+    "src"
   ],
   "exclude": [
-    "*.test.ts",
-    "controllers/*.test.ts"
+    "**/*.test.ts"
   ],
   "references": [
     {
-      "path": "../../framework"
+      "path": "../../lib/backend-framework"
     },
     {
       "path": "../../services/health"

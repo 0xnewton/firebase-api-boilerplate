@@ -14,6 +14,18 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/backend-framework": [
+        "packages/lib/backend-framework/src"
+      ],
+      "@app/health-service": [
+        "packages/services/health/src"
+      ],
+      "@app/api-function": [
+        "packages/functions/api/src"
+      ]
+    }
   }
 }
