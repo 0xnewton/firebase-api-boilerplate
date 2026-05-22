@@ -7,6 +7,7 @@ import {HealthController} from "./modules/health";
 setGlobalOptions({maxInstances: 10});
 
 export const api = onRequest(
+  {invoker: "public"},
   createHttpRouter({
     context: {
       serviceName: "api",
