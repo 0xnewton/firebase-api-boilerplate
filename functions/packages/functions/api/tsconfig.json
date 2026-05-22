@@ -1,7 +1,6 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
     "outDir": "./dist",
     "rootDir": "./src",
     "composite": true
@@ -14,7 +13,7 @@
   ],
   "references": [
     {
-      "path": "../../lib/backend-framework"
+      "path": "../../platform/backend-framework"
     },
     {
       "path": "../../services/health"

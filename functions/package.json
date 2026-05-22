@@ -2,7 +2,7 @@
   "name": "app-functions",
   "private": true,
   "workspaces": [
-    "packages/lib/*",
+    "packages/platform/*",
     "packages/services/*",
     "packages/functions/*"
   ],

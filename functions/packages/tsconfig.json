@@ -2,7 +2,7 @@
   "files": [],
   "references": [
     {
-      "path": "./lib"
+      "path": "./platform"
     },
     {
       "path": "./services"
