@@ -4,14 +4,14 @@ import {
 } from "@app/backend-framework";
 import type {RouteArgs} from "@app/backend-framework";
 import {DemoService} from "@app/demo-service";
-import {object, optional, string} from "@app/validation";
+import {nonEmptyString, z} from "@app/validation";
 
-const DemoShowcasePayload = object({
-  name: string(),
-  assetText: optional(string()),
+const DemoShowcasePayload = z.object({
+  name: nonEmptyString(),
+  assetText: z.string().optional(),
 });
 
-type DemoShowcasePayload = ReturnType<typeof DemoShowcasePayload.parse>;
+type DemoShowcasePayload = z.infer<typeof DemoShowcasePayload>;
 
 export class DemoController extends Controller {
   private demoService?: DemoService;

@@ -125,7 +125,7 @@ import {createDb} from "@app/db";
 import {createFirebaseAuthMiddleware} from "@app/firebase-auth";
 import {Logger} from "@app/logger";
 import {createStorage} from "@app/storage";
-import {object, string} from "@app/validation";
+import {z} from "@app/validation";
 import {HealthService} from "@app/health-service";
 ```
 
@@ -214,15 +214,13 @@ cp .firebaserc.example .firebaserc
 
 ## Validation
 
-Routes accept any object with a `.parse(value)` method as a schema. `@app/validation` provides a tiny built-in schema helper for simple boilerplate cases:
+Routes accept any object with a `.parse(value)` method as a schema. `@app/validation` re-exports Zod for app validation:
 
 ```ts
-const CreateThingPayload = object({
-  name: string(),
+const CreateThingPayload = z.object({
+  name: z.string().trim().min(1),
 });
 ```
-
-You can replace this with Zod later because the route contract only depends on `.parse(...)`.
 
 ## CORS
 

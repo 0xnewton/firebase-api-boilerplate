@@ -35,7 +35,7 @@ The repo uses real npm workspace packages under `functions/packages`.
 - `packages/platform/firebase-auth`: Firebase ID token middleware.
 - `packages/platform/logger`: Firebase logger wrapper.
 - `packages/platform/testing`: shared test helpers.
-- `packages/platform/validation`: minimal `.parse(...)` schema helpers.
+- `packages/platform/validation`: Zod exports and validation helpers.
 
 ## Design Rules
 

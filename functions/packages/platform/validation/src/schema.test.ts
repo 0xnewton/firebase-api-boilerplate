@@ -1,30 +1,32 @@
 import assert from "node:assert/strict";
 import {test} from "@jest/globals";
 
-import {object, optional, ParseError, string} from "./schema";
+import {nonEmptyString, z, ZodError} from "./schema";
 
 test("parses typed objects", () => {
-  const schema = object({
-    name: string(),
-    ownerId: optional(string()),
+  const schema = z.object({
+    name: nonEmptyString(),
+    ownerId: z.string().optional(),
   });
 
   assert.deepEqual(schema.parse({name: "Thing"}), {
     name: "Thing",
-    ownerId: undefined,
   });
 });
 
 test("reports nested validation issues", () => {
-  const schema = object({
-    name: string(),
+  const schema = z.object({
+    name: nonEmptyString(),
   });
 
   assert.throws(
     () => schema.parse({name: ""}),
     (error) => {
-      assert.equal(error instanceof ParseError, true);
-      assert.deepEqual((error as ParseError).issues, [{
+      assert.equal(error instanceof ZodError, true);
+      assert.deepEqual((error as ZodError).issues.map((issue) => ({
+        path: issue.path.join("."),
+        message: issue.message,
+      })), [{
         path: "name",
         message: "Expected a non-empty string",
       }]);
