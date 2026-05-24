@@ -1,19 +1,19 @@
-import {Controller, RequestContext, Route} from "@app/backend-framework";
+import {Controller, Route} from "@app/backend-framework";
 import {HealthService} from "@app/health-service";
 
 export class HealthController extends Controller {
-  private healthService!: HealthService;
-
-  async initialize(context: RequestContext) {
-    await super.initialize(context);
-    this.healthService = new HealthService(context);
-  }
+  private healthService?: HealthService;
 
   @Route({
     path: "/health",
     method: "GET",
   })
   async check() {
-    return this.healthService.getHealth();
+    return this.service.getHealth();
+  }
+
+  private get service(): HealthService {
+    this.healthService ??= new HealthService(this.context);
+    return this.healthService;
   }
 }

@@ -145,6 +145,14 @@ Supported env vars:
 - `STORAGE_BUCKET`: optional Firebase Storage bucket override
 - `CORS_ALLOWED_ORIGINS`: comma-separated list of allowed browser origins
 
+For local development, copy the example file:
+
+```sh
+cp functions/.env.example functions/.env.local
+```
+
+Firebase Functions supports `.env`, `.env.<project-or-alias>`, and `.env.local`. Keep real env files out of git; only commit examples. Use env files for non-secret config only.
+
 Secrets use Firebase Functions v2 secret params, backed by Google Secret Manager:
 
 ```ts

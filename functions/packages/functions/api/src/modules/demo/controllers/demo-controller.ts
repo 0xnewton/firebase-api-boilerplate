@@ -1,8 +1,6 @@
 import {
   Controller,
-  RequestContext,
   Route,
-  ValidationError,
 } from "@app/backend-framework";
 import type {RouteArgs} from "@app/backend-framework";
 import {DemoService} from "@app/demo-service";
@@ -16,12 +14,7 @@ const DemoShowcasePayload = object({
 type DemoShowcasePayload = ReturnType<typeof DemoShowcasePayload.parse>;
 
 export class DemoController extends Controller {
-  private demoService!: DemoService;
-
-  async initialize(context: RequestContext) {
-    await super.initialize(context);
-    this.demoService = new DemoService(context);
-  }
+  private demoService?: DemoService;
 
   @Route({
     path: "/demo/showcase",
@@ -32,10 +25,11 @@ export class DemoController extends Controller {
   async createShowcase({
     payload,
   }: RouteArgs<DemoShowcasePayload>) {
-    if (!payload) {
-      throw new ValidationError("Missing demo payload");
-    }
+    return this.service.createShowcase(payload);
+  }
 
-    return this.demoService.createShowcase(payload);
+  private get service(): DemoService {
+    this.demoService ??= new DemoService(this.context);
+    return this.demoService;
   }
 }

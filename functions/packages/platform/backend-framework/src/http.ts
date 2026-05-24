@@ -10,6 +10,10 @@ export type Schema<T> = {
   parse(value: unknown): T;
 };
 
+type PayloadRouteArg<Payload> = unknown extends Payload ?
+  {payload?: Payload} :
+  {payload: Payload};
+
 export type RouteDefinition<
   Payload = unknown,
   PathParams = unknown,
@@ -29,8 +33,7 @@ export type RouteArgs<
   PathParams = unknown,
   QueryParams = unknown,
   Claims = unknown,
-> = {
-  payload?: Payload;
+> = PayloadRouteArg<Payload> & {
   pathParams?: PathParams;
   queryParams?: QueryParams;
   token?: string;

@@ -1,10 +1,18 @@
 import type {RequestContext} from "./context";
 
 export class Controller {
-  protected context!: RequestContext;
+  private requestContext?: RequestContext;
+
+  protected get context(): RequestContext {
+    if (!this.requestContext) {
+      throw new Error("Controller has not been initialized");
+    }
+
+    return this.requestContext;
+  }
 
   async initialize(context: RequestContext): Promise<void> {
-    this.context = context;
+    this.requestContext = context;
   }
 
   getPathParameter(key: string): string | undefined {
