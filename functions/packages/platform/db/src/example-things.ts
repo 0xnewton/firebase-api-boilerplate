@@ -3,7 +3,7 @@ import type {
   UpdateData,
 } from "firebase-admin/firestore";
 
-import {BaseRepository} from "./base-repository";
+import {BaseRepository, RepositoryOperationOptions} from "./base-repository";
 
 export type ExampleThing = {
   id: string;
@@ -31,8 +31,11 @@ export class ExampleThingRepository extends BaseRepository<
   CreateExampleThingInput,
   UpdateExampleThingInput
 > {
-  constructor(collection: CollectionReference<ExampleThingDocument>) {
-    super(collection);
+  constructor(
+    collection: CollectionReference<ExampleThingDocument>,
+    options?: RepositoryOperationOptions
+  ) {
+    super(collection, options);
   }
 
   protected toCreateData(

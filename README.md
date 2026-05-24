@@ -99,6 +99,7 @@ import {BaseService} from "@app/backend-service";
 import {createDb} from "@app/db";
 import {createFirebaseAuthMiddleware} from "@app/firebase-auth";
 import {Logger} from "@app/logger";
+import {createStorage} from "@app/storage";
 import {HealthService} from "@app/health-service";
 ```
 
@@ -127,6 +128,16 @@ await this.db.exampleThings.create({
 });
 ```
 
+It also exposes app storage as `this.storage`:
+
+```ts
+await this.storage.assets.upload({
+  path: `users/${userId}/avatar.png`,
+  data: avatarBuffer,
+  contentType: "image/png",
+});
+```
+
 ## Database
 
 Use `@app/db` for typed repository access. Firestore is the current backing implementation, but services depend on the app-facing database surface:
@@ -137,6 +148,38 @@ const thing = await db.exampleThings.create({name: "First thing"});
 ```
 
 Repositories can share CRUD behavior by extending `BaseRepository`, then add model-specific query methods when Firestore paths or indexes require it.
+
+Use `runTransaction` when multiple repository operations should commit together:
+
+```ts
+const thing = await this.db.runTransaction(async (txDb) => {
+  const created = await txDb.exampleThings.create({name: "Draft"});
+  return txDb.exampleThings.update(created.id, {ownerId: userId});
+});
+```
+
+Inside the callback, repositories are already bound to the transaction.
+
+## Storage
+
+Use `@app/storage` for Firebase Storage assets:
+
+```ts
+const storage = createStorage();
+
+await storage.assets.upload({
+  path: "stories/story-1/cover.png",
+  data: coverBuffer,
+  contentType: "image/png",
+});
+
+const url = await storage.assets.createSignedReadUrl(
+  "stories/story-1/cover.png",
+  {expiresAt: Date.now() + 15 * 60 * 1000}
+);
+```
+
+Storage is intentionally separate from `@app/db` because assets have different lifecycle and access patterns than structured app records.
 
 ## Logging
 

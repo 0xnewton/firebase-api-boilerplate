@@ -5,6 +5,11 @@ import {Logger} from "@app/logger";
 import {createStorage} from "@app/storage";
 import type {AppStorage} from "@app/storage";
 
+export type BaseServiceDependencies = {
+  db?: AppDb;
+  storage?: AppStorage;
+};
+
 export class BaseService {
   private dbInstance?: AppDb;
   private storageInstance?: AppStorage;
@@ -12,11 +17,10 @@ export class BaseService {
 
   constructor(
     protected readonly context: RequestContext,
-    db?: AppDb,
-    storage?: AppStorage
+    dependencies: BaseServiceDependencies = {}
   ) {
-    this.dbInstance = db;
-    this.storageInstance = storage;
+    this.dbInstance = dependencies.db;
+    this.storageInstance = dependencies.storage;
     this.logger = new Logger(context);
   }
 

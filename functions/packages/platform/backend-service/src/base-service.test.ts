@@ -8,14 +8,11 @@ import {BaseService} from "./base-service";
 
 class TestService extends BaseService {
   constructor(context: ConstructorParameters<typeof BaseService>[0]) {
-    const db = {
-      exampleThings: {} as ExampleThingRepository,
-    } satisfies AppDb;
     const storage = {
       assets: {} as AssetStore,
     } satisfies AppStorage;
 
-    super(context, db, storage);
+    super(context, {db: createTestDb(), storage});
   }
 
   getContextRequestId(): string {
@@ -42,7 +39,7 @@ test("provides request context, logger, and db to services", () => {
   const service = new TestService(context);
 
   assert.equal(service.getContextRequestId(), "req-service-123");
-  assert.deepEqual(service.getDbKeys(), ["exampleThings"]);
+  assert.deepEqual(service.getDbKeys(), ["exampleThings", "runTransaction"]);
   assert.deepEqual(service.getStorageKeys(), ["assets"]);
   assert.deepEqual(service.createLogEntry(), {
     severity: "INFO",
@@ -56,3 +53,14 @@ test("provides request context, logger, and db to services", () => {
     },
   });
 });
+
+function createTestDb(): AppDb {
+  const db: AppDb = {
+    exampleThings: {} as ExampleThingRepository,
+    runTransaction<T>(callback: (db: AppDb) => Promise<T>) {
+      return callback(db);
+    },
+  };
+
+  return db;
+}

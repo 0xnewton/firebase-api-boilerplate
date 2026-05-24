@@ -43,18 +43,20 @@ export abstract class BaseRepository<
   TUpdate extends object
 > implements CrudRepository<TRead, TCreate, TUpdate> {
   constructor(
-    protected readonly collection: CollectionReference<TStored>
+    protected readonly collection: CollectionReference<TStored>,
+    private readonly defaultOptions: RepositoryOperationOptions = {}
   ) {}
 
   async create(
     input: TCreate,
     options?: RepositoryOperationOptions
   ): Promise<TRead> {
+    const operationOptions = this.resolveOptions(options);
     const document = this.collection.doc();
     const data = this.toCreateData(input);
 
-    if (options?.transaction) {
-      options.transaction.set(document, data);
+    if (operationOptions.transaction) {
+      operationOptions.transaction.set(document, data);
     } else {
       await document.set(data);
     }
@@ -66,7 +68,7 @@ export abstract class BaseRepository<
     id: string,
     options?: RepositoryOperationOptions
   ): Promise<TRead | undefined> {
-    const snapshot = await this.getSnapshot(id, options);
+    const snapshot = await this.getSnapshot(id, this.resolveOptions(options));
     if (!snapshot.exists) {
       return undefined;
     }
@@ -79,12 +81,13 @@ export abstract class BaseRepository<
     input: TUpdate,
     options?: RepositoryOperationOptions
   ): Promise<TRead> {
+    const operationOptions = this.resolveOptions(options);
     const document = this.collection.doc(id);
     const data = this.toUpdateData(input);
 
-    if (options?.transaction) {
-      const existing = await this.getRequired(id, options);
-      options.transaction.update(document, data);
+    if (operationOptions.transaction) {
+      const existing = await this.getRequired(id, operationOptions);
+      operationOptions.transaction.update(document, data);
       return this.toRead(id, {
         ...this.toStoredData(existing),
         ...(data as Partial<TStored>),
@@ -99,10 +102,11 @@ export abstract class BaseRepository<
     id: string,
     options?: RepositoryOperationOptions
   ): Promise<void> {
+    const operationOptions = this.resolveOptions(options);
     const document = this.collection.doc(id);
 
-    if (options?.transaction) {
-      options.transaction.delete(document);
+    if (operationOptions.transaction) {
+      operationOptions.transaction.delete(document);
       return;
     }
 
@@ -152,5 +156,14 @@ export abstract class BaseRepository<
     }
 
     return document.get();
+  }
+
+  private resolveOptions(
+    options?: RepositoryOperationOptions
+  ): RepositoryOperationOptions {
+    return {
+      ...this.defaultOptions,
+      ...options,
+    };
   }
 }
