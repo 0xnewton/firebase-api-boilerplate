@@ -18,6 +18,9 @@
       "@app/db": [
         "./packages/platform/db/src/index.ts"
       ],
+      "@app/storage": [
+        "./packages/platform/storage/src/index.ts"
+      ],
       "@app/firebase-auth": [
         "./packages/platform/firebase-auth/src/index.ts"
       ],

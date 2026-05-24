@@ -11,6 +11,9 @@
       "path": "./db"
     },
     {
+      "path": "./storage"
+    },
+    {
       "path": "./backend-service"
     },
     {
