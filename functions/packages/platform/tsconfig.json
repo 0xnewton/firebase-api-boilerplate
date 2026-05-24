@@ -8,6 +8,9 @@
       "path": "./logger"
     },
     {
+      "path": "./db"
+    },
+    {
       "path": "./backend-service"
     },
     {

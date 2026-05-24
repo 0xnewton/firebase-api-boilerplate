@@ -1,12 +1,23 @@
 import assert from "node:assert/strict";
 import {test} from "@jest/globals";
 
+import type {AppDb, ExampleThingRepository} from "@app/db";
 import {createTestRequestContext} from "@app/testing";
 import {BaseService} from "./base-service";
 
 class TestService extends BaseService {
+  constructor(context: ConstructorParameters<typeof BaseService>[0]) {
+    super(context, {
+      exampleThings: {} as ExampleThingRepository,
+    } satisfies AppDb);
+  }
+
   getContextRequestId(): string {
     return this.context.requestId;
+  }
+
+  getDbKeys(): string[] {
+    return Object.keys(this.db);
   }
 
   createLogEntry() {
@@ -14,13 +25,14 @@ class TestService extends BaseService {
   }
 }
 
-test("provides request context and logger to services", () => {
+test("provides request context, logger, and db to services", () => {
   const context = createTestRequestContext({
     requestId: "req-service-123",
   });
   const service = new TestService(context);
 
   assert.equal(service.getContextRequestId(), "req-service-123");
+  assert.deepEqual(service.getDbKeys(), ["exampleThings"]);
   assert.deepEqual(service.createLogEntry(), {
     severity: "INFO",
     message: "Service tested",

@@ -15,6 +15,9 @@
       "@app/backend-service": [
         "./packages/platform/backend-service/src/index.ts"
       ],
+      "@app/db": [
+        "./packages/platform/db/src/index.ts"
+      ],
       "@app/firebase-auth": [
         "./packages/platform/firebase-auth/src/index.ts"
       ],

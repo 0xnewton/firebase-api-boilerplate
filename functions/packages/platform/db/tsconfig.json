@@ -10,16 +10,5 @@
   ],
   "exclude": [
     "**/*.test.ts"
-  ],
-  "references": [
-    {
-      "path": "../backend-framework"
-    },
-    {
-      "path": "../db"
-    },
-    {
-      "path": "../logger"
-    }
   ]
 }

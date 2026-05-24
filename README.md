@@ -10,6 +10,7 @@ functions/
     platform/
       backend-service/
       backend-framework/
+      db/
       firebase-auth/
       logger/
       testing/
@@ -95,6 +96,7 @@ Packages use real workspace imports:
 ```ts
 import {Controller, Route} from "@app/backend-framework";
 import {BaseService} from "@app/backend-service";
+import {createDb} from "@app/db";
 import {createFirebaseAuthMiddleware} from "@app/firebase-auth";
 import {Logger} from "@app/logger";
 import {HealthService} from "@app/health-service";
@@ -116,6 +118,25 @@ export class ExampleService extends BaseService {
   }
 }
 ```
+
+`BaseService` also exposes the typed app database as `this.db`:
+
+```ts
+await this.db.exampleThings.create({
+  name: "Example",
+});
+```
+
+## Database
+
+Use `@app/db` for typed repository access. Firestore is the current backing implementation, but services depend on the app-facing database surface:
+
+```ts
+const db = createDb();
+const thing = await db.exampleThings.create({name: "First thing"});
+```
+
+Repositories can share CRUD behavior by extending `BaseRepository`, then add model-specific query methods when Firestore paths or indexes require it.
 
 ## Logging
 
