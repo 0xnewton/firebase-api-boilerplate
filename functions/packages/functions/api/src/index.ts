@@ -1,5 +1,4 @@
 import {getApps, initializeApp} from "firebase-admin/app";
-import {setGlobalOptions} from "firebase-functions/v2";
 import {onRequest} from "firebase-functions/v2/https";
 
 import {createCorsMiddleware, createHttpRouter} from "@app/backend-framework";
@@ -12,7 +11,6 @@ import {apiSecrets} from "./secrets";
 if (!getApps().length) {
   initializeApp();
 }
-setGlobalOptions({maxInstances: 10});
 
 const config = readAppConfig(process.env);
 
@@ -20,6 +18,8 @@ export const api = onRequest(
   {
     invoker: "public",
     secrets: apiSecrets,
+    minInstances: config.functions.minInstances,
+    maxInstances: config.functions.maxInstances,
   },
   createHttpRouter({
     context: {

@@ -144,6 +144,8 @@ Supported env vars:
 - `APP_STAGE`: `local`, `dev`, `staging`, or `prod`
 - `STORAGE_BUCKET`: optional Firebase Storage bucket override
 - `CORS_ALLOWED_ORIGINS`: comma-separated list of allowed browser origins
+- `FUNCTION_MIN_INSTANCES`: non-negative integer for warm API instances, defaults to `0`
+- `FUNCTION_MAX_INSTANCES`: non-negative integer for API scale limit, defaults to `10`
 
 For local development, copy the example file:
 
