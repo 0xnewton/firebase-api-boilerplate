@@ -1,5 +1,6 @@
 export * from "./context";
 export * from "./controller";
+export * from "./cors";
 export * from "./errors";
 export * from "./http";
 export * from "./middleware";

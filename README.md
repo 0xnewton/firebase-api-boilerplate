@@ -9,11 +9,14 @@ functions/
   packages/
     platform/
       backend-service/
+      config/
       backend-framework/
       db/
       firebase-auth/
       logger/
+      storage/
       testing/
+      validation/
     services/
       health/
     functions/
@@ -96,14 +99,105 @@ Packages use real workspace imports:
 ```ts
 import {Controller, Route} from "@app/backend-framework";
 import {BaseService} from "@app/backend-service";
+import {readAppConfig} from "@app/config";
 import {createDb} from "@app/db";
 import {createFirebaseAuthMiddleware} from "@app/firebase-auth";
 import {Logger} from "@app/logger";
 import {createStorage} from "@app/storage";
+import {object, string} from "@app/validation";
 import {HealthService} from "@app/health-service";
 ```
 
 These are real npm workspace packages, not TypeScript-only aliases.
+
+## Config And Secrets
+
+Use `@app/config` for environment config:
+
+```ts
+const config = readAppConfig();
+```
+
+Supported env vars:
+
+- `APP_STAGE`: `local`, `dev`, `staging`, or `prod`
+- `STORAGE_BUCKET`: optional Firebase Storage bucket override
+- `CORS_ALLOWED_ORIGINS`: comma-separated list of allowed browser origins
+
+Secrets use Firebase Functions v2 secret params, backed by Google Secret Manager:
+
+```ts
+// packages/functions/api/src/secrets.ts
+import {defineAppSecret} from "@app/config";
+
+export const stripeSecretKey = defineAppSecret("STRIPE_SECRET_KEY");
+
+export const apiSecrets = [
+  stripeSecretKey,
+];
+```
+
+Bind secrets to each function through `onRequest({secrets: apiSecrets}, handler)`.
+
+```ts
+// packages/functions/api/src/index.ts
+import {apiSecrets} from "./secrets";
+
+export const api = onRequest({secrets: apiSecrets}, handler);
+```
+
+Read secret values from runtime code only:
+
+```ts
+import {readSecret} from "@app/config";
+import {stripeSecretKey} from "./secrets";
+
+const value = readSecret(stripeSecretKey);
+```
+
+Secret values are only available at runtime, so do not call `.value()` during module initialization.
+
+Set secret values with the Firebase CLI:
+
+```sh
+firebase functions:secrets:set STRIPE_SECRET_KEY
+```
+
+## Environments
+
+For real projects, use separate Firebase/GCP projects for `dev`, `staging`, and `prod`. That gives each environment isolated Auth users, Firestore data, Storage buckets, Secret Manager values, IAM, billing, and deploy history.
+
+Use `.firebaserc` aliases to switch targets:
+
+```sh
+firebase use dev
+firebase use staging
+firebase use prod
+```
+
+Then set environment-specific config and secrets per project.
+
+## Validation
+
+Routes accept any object with a `.parse(value)` method as a schema. `@app/validation` provides a tiny built-in schema helper for simple boilerplate cases:
+
+```ts
+const CreateThingPayload = object({
+  name: string(),
+});
+```
+
+You can replace this with Zod later because the route contract only depends on `.parse(...)`.
+
+## CORS
+
+The API function uses `createCorsMiddleware` and reads allowed origins from `CORS_ALLOWED_ORIGINS`.
+
+Example local value:
+
+```txt
+CORS_ALLOWED_ORIGINS=http://localhost:3000,https://app.example.com
+```
 
 ## Services
 

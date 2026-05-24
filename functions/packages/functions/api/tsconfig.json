@@ -16,6 +16,9 @@
       "path": "../../platform/backend-framework"
     },
     {
+      "path": "../../platform/config"
+    },
+    {
       "path": "../../platform/firebase-auth"
     },
     {

@@ -5,7 +5,13 @@
       "path": "./backend-framework"
     },
     {
+      "path": "./config"
+    },
+    {
       "path": "./logger"
+    },
+    {
+      "path": "./validation"
     },
     {
       "path": "./db"
