@@ -9,6 +9,7 @@ functions/
   packages/
     platform/
       backend-framework/
+      logger/
     services/
       health/
     functions/
@@ -43,7 +44,6 @@ npm run clean
 `npm run clean` removes generated build output only:
 
 - `functions/lib/`
-- `functions/lib-tests/`
 - `functions/packages/**/dist/`
 - `*.tsbuildinfo`
 
@@ -91,10 +91,24 @@ Packages use real workspace imports:
 
 ```ts
 import {Controller, Route} from "@app/backend-framework";
+import {Logger} from "@app/logger";
 import {HealthService} from "@app/health-service";
 ```
 
 These are real npm workspace packages, not TypeScript-only aliases.
+
+## Logging
+
+Use `@app/logger` when a service or controller needs structured Firebase logs:
+
+```ts
+const logger = new Logger(context);
+
+logger.info("Request handled", {elapsedMs: 12});
+logger.exception("Request failed", error);
+```
+
+Log entries automatically include request context such as service name, stage, request id, method, and path.
 
 ## Adding A Service
 
@@ -163,4 +177,4 @@ Tests can be colocated anywhere under `functions/packages` using:
 *.test.ts
 ```
 
-Production package builds exclude test files. The test build compiles them into `functions/lib-tests`.
+Production package builds exclude test files. Tests run directly from TypeScript with Jest and `ts-jest`, so no separate compiled test output is needed.

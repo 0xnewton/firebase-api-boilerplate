@@ -3,6 +3,9 @@
   "references": [
     {
       "path": "./backend-framework"
+    },
+    {
+      "path": "./logger"
     }
   ]
 }

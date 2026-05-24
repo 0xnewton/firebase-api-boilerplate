@@ -1,0 +1,17 @@
+{
+  "name": "@app/logger",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@app/backend-framework": "1.0.0",
+    "firebase-functions": "^7.0.0"
+  }
+}
