@@ -21,6 +21,9 @@
       "@app/db": [
         "./packages/platform/db/src/index.ts"
       ],
+      "@app/demo-service": [
+        "./packages/services/demo/src/index.ts"
+      ],
       "@app/storage": [
         "./packages/platform/storage/src/index.ts"
       ],

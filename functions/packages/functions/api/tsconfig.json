@@ -19,7 +19,13 @@
       "path": "../../platform/config"
     },
     {
+      "path": "../../platform/validation"
+    },
+    {
       "path": "../../platform/firebase-auth"
+    },
+    {
+      "path": "../../services/demo"
     },
     {
       "path": "../../services/health"

@@ -5,6 +5,7 @@ import {onRequest} from "firebase-functions/v2/https";
 import {createCorsMiddleware, createHttpRouter} from "@app/backend-framework";
 import {readAppConfig} from "@app/config";
 import {createFirebaseAuthMiddleware} from "@app/firebase-auth";
+import {DemoController} from "./modules/demo";
 import {HealthController} from "./modules/health";
 import {apiSecrets} from "./secrets";
 
@@ -25,7 +26,10 @@ export const api = onRequest(
       serviceName: "api",
       stage: config.stage,
     },
-    controllers: [HealthController],
+    controllers: [
+      HealthController,
+      DemoController,
+    ],
     middlewares: [
       createCorsMiddleware({
         allowedOrigins: config.corsAllowedOrigins,

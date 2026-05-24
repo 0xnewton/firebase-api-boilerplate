@@ -92,6 +92,27 @@ Expected response shape:
 }
 ```
 
+## Demo Endpoint
+
+The API also includes an authenticated showcase endpoint:
+
+```txt
+POST /demo/showcase
+```
+
+It demonstrates route validation, Firebase auth claims, `BaseService`, logging, DB transactions, Storage uploads, signed URLs, and request metadata in one place.
+
+Example payload:
+
+```json
+{
+  "name": "Demo Thing",
+  "assetText": "Hello from the demo endpoint"
+}
+```
+
+This endpoint creates an example Firestore document and a text asset in Storage. Treat it as a template and remove or replace it when real business modules are added.
+
 ## Package Imports
 
 Packages use real workspace imports:
