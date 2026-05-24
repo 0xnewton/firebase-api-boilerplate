@@ -1,5 +1,5 @@
 {
-  "name": "@app/health-service",
+  "name": "@app/testing",
   "version": "1.0.0",
   "private": true,
   "main": "dist/index.js",
@@ -11,6 +11,8 @@
     "build": "tsc -b ."
   },
   "dependencies": {
-    "@app/backend-service": "1.0.0"
+    "@app/backend-framework": "1.0.0",
+    "@faker-js/faker": "^8.4.1",
+    "firebase-admin": "^13.6.0"
   }
 }

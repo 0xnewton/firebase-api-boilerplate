@@ -1,17 +1,16 @@
 import assert from "node:assert/strict";
 import {test} from "@jest/globals";
-import type {DecodedIdToken} from "firebase-admin/auth";
 
-import type {RequestContext} from "@app/backend-framework";
 import {UnauthorizedError} from "@app/backend-framework";
 import {
-  createFirebaseAuthMiddleware,
-  createFirebaseTokenAuthenticator,
-} from "./firebase-auth-middleware";
+  createTestFirebaseIdToken,
+  createTestRequestContext,
+} from "@app/testing";
+import {createFirebaseAuthMiddleware} from "./firebase-auth-middleware";
 import type {FirebaseIdTokenVerifier} from "./firebase-auth-middleware";
 
 test("skips verification when no bearer token is present", async () => {
-  const context = createContext();
+  const context = createTestRequestContext();
   let calledNext = false;
 
   await createFirebaseAuthMiddleware({
@@ -27,10 +26,10 @@ test("skips verification when no bearer token is present", async () => {
 });
 
 test("verifies bearer tokens and stores decoded claims", async () => {
-  const context = createContext({
+  const context = createTestRequestContext({
     authToken: "token-123",
   });
-  const claims = createClaims({uid: "user-1"});
+  const claims = createTestFirebaseIdToken({uid: "user-1"});
   let capturedToken = "";
   let capturedCheckRevoked: boolean | undefined;
 
@@ -49,7 +48,7 @@ test("verifies bearer tokens and stores decoded claims", async () => {
 });
 
 test("throws unauthorized errors for invalid bearer tokens", async () => {
-  const context = createContext({
+  const context = createTestRequestContext({
     authToken: "bad-token",
   });
 
@@ -70,65 +69,10 @@ test("throws unauthorized errors for invalid bearer tokens", async () => {
   );
 });
 
-test("creates route authenticators for authenticated routes", async () => {
-  const claims = createClaims({uid: "user-2"});
-  const authenticator = createFirebaseTokenAuthenticator({
-    verifier: createVerifier(async () => claims),
-  });
-
-  assert.deepEqual(
-    await authenticator("token-456", createContext()),
-    claims
-  );
-});
-
-function createContext(
-  overrides: Partial<RequestContext> = {}
-): RequestContext {
-  return {
-    serviceName: "test-api",
-    stage: "test",
-    requestId: "req-123",
-    request: {
-      method: "GET",
-      path: "/private",
-      headers: {},
-      query: {},
-      params: {},
-      body: undefined,
-      cookies: {},
-    },
-    response: {
-      statusCode: 200,
-      headers: {},
-    },
-    ...overrides,
-  };
-}
-
 function createVerifier(
   verify: FirebaseIdTokenVerifier["verifyIdToken"]
 ): FirebaseIdTokenVerifier {
   return {
     verifyIdToken: verify,
-  };
-}
-
-function createClaims(
-  overrides: Partial<DecodedIdToken> = {}
-): DecodedIdToken {
-  return {
-    aud: "test-project",
-    auth_time: 1,
-    exp: 2,
-    firebase: {
-      identities: {},
-      sign_in_provider: "password",
-    },
-    iat: 1,
-    iss: "https://securetoken.google.com/test-project",
-    sub: "user",
-    uid: "user",
-    ...overrides,
   };
 }

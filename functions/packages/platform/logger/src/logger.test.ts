@@ -1,27 +1,16 @@
 import assert from "node:assert/strict";
 import {test} from "@jest/globals";
 
-import type {RequestContext} from "@app/backend-framework";
+import {createTestRequestContext} from "@app/testing";
 import {Logger} from "./logger";
 
-const context: RequestContext = {
-  serviceName: "test-api",
-  stage: "test",
+const context = createTestRequestContext({
   requestId: "req-123",
   request: {
     method: "GET",
     path: "/health",
-    headers: {},
-    query: {},
-    params: {},
-    body: undefined,
-    cookies: {},
   },
-  response: {
-    statusCode: 200,
-    headers: {},
-  },
-};
+});
 
 test("creates structured log entries with request context", () => {
   const logger = new Logger(context);

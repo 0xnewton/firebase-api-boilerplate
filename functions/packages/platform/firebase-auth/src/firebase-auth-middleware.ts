@@ -1,11 +1,7 @@
 import {getAuth} from "firebase-admin/auth";
 import type {DecodedIdToken} from "firebase-admin/auth";
 
-import type {
-  Authenticator,
-  Middleware,
-  RequestContext,
-} from "@app/backend-framework";
+import type {Middleware, RequestContext} from "@app/backend-framework";
 import {UnauthorizedError} from "@app/backend-framework";
 
 export type FirebaseIdTokenVerifier = {
@@ -34,12 +30,6 @@ export function createFirebaseAuthMiddleware(
 
     await next();
   };
-}
-
-export function createFirebaseTokenAuthenticator(
-  options: FirebaseAuthOptions = {}
-): Authenticator {
-  return (token, context) => verifyFirebaseIdToken(token, context, options);
 }
 
 export async function verifyFirebaseIdToken(

@@ -13,7 +13,10 @@
   ],
   "references": [
     {
-      "path": "../../platform/backend-service"
+      "path": "../backend-framework"
+    },
+    {
+      "path": "../logger"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@app/health-service",
+  "name": "@app/backend-service",
   "version": "1.0.0",
   "private": true,
   "main": "dist/index.js",
@@ -11,6 +11,7 @@
     "build": "tsc -b ."
   },
   "dependencies": {
-    "@app/backend-service": "1.0.0"
+    "@app/backend-framework": "1.0.0",
+    "@app/logger": "1.0.0"
   }
 }

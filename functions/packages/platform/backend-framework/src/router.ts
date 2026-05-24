@@ -28,16 +28,10 @@ export type HttpResponse = {
 
 type ControllerClass = new () => Controller;
 
-export type Authenticator = (
-  token: string,
-  context: RequestContext
-) => Promise<unknown>;
-
 type RouterArgs = {
   context: RuntimeContext;
   controllers: ControllerClass[];
   middlewares?: Middleware[];
-  authenticate?: Authenticator;
 };
 
 type RouteEntry = ReturnType<typeof getRegisteredRoutes>[number] & {
@@ -55,7 +49,6 @@ export function createHttpRouter({
   context,
   controllers,
   middlewares = [],
-  authenticate,
 }: RouterArgs) {
   const routes = controllers.reduce<RouteEntry[]>(
     (registeredRoutes, controller) => [
@@ -82,7 +75,7 @@ export function createHttpRouter({
     try {
       await composeMiddlewares([
         ...middlewares,
-        buildRouteMiddleware(routeMatch, authenticate),
+        buildRouteMiddleware(routeMatch),
       ])(requestContext);
 
       response
@@ -104,8 +97,7 @@ export function createHttpRouter({
 }
 
 function buildRouteMiddleware(
-  routeMatch: RouteMatch | undefined,
-  authenticate?: Authenticator
+  routeMatch: RouteMatch | undefined
 ): Middleware {
   return async (context) => {
     if (!routeMatch) {
@@ -121,13 +113,7 @@ function buildRouteMiddleware(
     const routeArgs = buildRouteArgs(route, context);
 
     if (route.authenticated) {
-      if (!context.authToken) {
-        throw new UnauthorizedError();
-      }
-
-      if (authenticate) {
-        context.claims = await authenticate(context.authToken, context);
-      } else if (!context.claims) {
+      if (!context.authToken || !context.claims) {
         throw new UnauthorizedError();
       }
 

@@ -8,9 +8,11 @@ This repo is a Firebase/GCP backend boilerplate with real npm workspace package 
 functions/
   packages/
     platform/
+      backend-service/
       backend-framework/
       firebase-auth/
       logger/
+      testing/
     services/
       health/
     functions/
@@ -92,12 +94,28 @@ Packages use real workspace imports:
 
 ```ts
 import {Controller, Route} from "@app/backend-framework";
+import {BaseService} from "@app/backend-service";
 import {createFirebaseAuthMiddleware} from "@app/firebase-auth";
 import {Logger} from "@app/logger";
 import {HealthService} from "@app/health-service";
 ```
 
 These are real npm workspace packages, not TypeScript-only aliases.
+
+## Services
+
+Services can extend `BaseService` from `@app/backend-service` to receive a typed request context and structured logger:
+
+```ts
+export class ExampleService extends BaseService {
+  doThing() {
+    this.logger.info("Doing thing");
+    return {
+      requestId: this.context.requestId,
+    };
+  }
+}
+```
 
 ## Logging
 
@@ -194,3 +212,12 @@ Tests can be colocated anywhere under `functions/packages` using:
 ```
 
 Production package builds exclude test files. Tests run directly from TypeScript with Jest and `ts-jest`, so no separate compiled test output is needed.
+
+Use `@app/testing` for shared fake backend objects:
+
+```ts
+const request = createTestHttpRequest({url: "/health"});
+const response = await invokeTestRouter(router, request);
+const context = createTestRequestContext();
+const claims = createTestFirebaseIdToken();
+```

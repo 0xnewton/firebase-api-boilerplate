@@ -1,9 +1,8 @@
-import type {RequestContext} from "@app/backend-framework";
+import {BaseService} from "@app/backend-service";
 
-export class HealthService {
-  constructor(private readonly context: RequestContext) {}
-
+export class HealthService extends BaseService {
   getHealth() {
+    this.logger.info('Health ping hit');
     return {
       status: "ok",
       service: this.context.serviceName,

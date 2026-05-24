@@ -5,8 +5,32 @@
     "declaration": false,
     "declarationMap": false,
     "isolatedModules": true,
+    "noEmit": true,
     "noUnusedLocals": false,
     "rootDir": ".",
+    "paths": {
+      "@app/backend-framework": [
+        "./packages/platform/backend-framework/src/index.ts"
+      ],
+      "@app/backend-service": [
+        "./packages/platform/backend-service/src/index.ts"
+      ],
+      "@app/firebase-auth": [
+        "./packages/platform/firebase-auth/src/index.ts"
+      ],
+      "@app/health-service": [
+        "./packages/services/health/src/index.ts"
+      ],
+      "@app/api-function": [
+        "./packages/functions/api/src/index.ts"
+      ],
+      "@app/logger": [
+        "./packages/platform/logger/src/index.ts"
+      ],
+      "@app/testing": [
+        "./packages/platform/testing/src/index.ts"
+      ]
+    },
     "types": [
       "jest",
       "node"

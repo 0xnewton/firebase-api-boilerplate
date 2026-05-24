@@ -5,10 +5,13 @@
       "path": "./backend-framework"
     },
     {
-      "path": "./firebase-auth"
+      "path": "./logger"
     },
     {
-      "path": "./logger"
+      "path": "./backend-service"
+    },
+    {
+      "path": "./firebase-auth"
     }
   ]
 }
