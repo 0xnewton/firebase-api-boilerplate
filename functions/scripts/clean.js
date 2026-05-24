@@ -2,11 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const root = process.cwd();
+const cleanPackagesOnly = process.argv.includes("--packages");
 
 const pathsToRemove = [
-  "lib",
-  "lib-tests",
-  ...findRootBuildInfoFiles(root),
+  ...cleanPackagesOnly ? [] : ["lib", ...findRootBuildInfoFiles(root)],
   ...findGeneratedFiles(path.join(root, "packages")),
 ];
 

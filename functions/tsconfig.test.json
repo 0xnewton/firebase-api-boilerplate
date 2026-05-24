@@ -1,17 +1,18 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "lib-tests",
-    "rootDir": "packages",
-    "tsBuildInfoFile": "lib-tests/tsconfig.test.tsbuildinfo",
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "isolatedModules": true,
+    "noUnusedLocals": false,
+    "rootDir": ".",
     "types": [
+      "jest",
       "node"
     ]
   },
   "include": [
     "packages/**/*.ts"
-  ],
-  "exclude": [
-    "packages/**/dist"
   ]
 }

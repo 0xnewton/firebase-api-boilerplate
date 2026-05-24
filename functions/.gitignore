@@ -1,6 +1,5 @@
 # Compiled output
 /lib/
-/lib-tests/
 packages/**/dist/
 *.tsbuildinfo
 

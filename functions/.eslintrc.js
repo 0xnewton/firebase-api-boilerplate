@@ -19,7 +19,6 @@ module.exports = {
   },
   ignorePatterns: [
     "/lib/**/*", // Ignore built files.
-    "/lib-tests/**/*", // Ignore compiled test files.
     "/scripts/**/*", // Ignore local build helper scripts.
     "/packages/**/dist/**/*", // Ignore package build output.
     "/generated/**/*", // Ignore generated files.

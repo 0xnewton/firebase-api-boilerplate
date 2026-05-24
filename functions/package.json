@@ -9,10 +9,9 @@
   "scripts": {
     "clean": "node scripts/clean.js",
     "lint": "eslint --ext .js,.ts .",
-    "build": "tsc -b packages/tsconfig.json",
+    "build": "node scripts/clean.js --packages && tsc -b packages/tsconfig.json",
     "build:watch": "tsc -b packages/tsconfig.json --watch",
-    "build:test": "npm run build && tsc -p tsconfig.test.json",
-    "test": "npm run build:test && node --test \"lib-tests/functions/**/*.test.js\"",
+    "test": "jest",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
@@ -29,12 +28,15 @@
     "firebase-functions": "^7.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.25.4",
     "firebase-functions-test": "^3.4.1",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.11",
     "typescript": "^6.0.0"
   }
 }
