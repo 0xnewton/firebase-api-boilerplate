@@ -177,6 +177,12 @@ firebase use prod
 
 Then set environment-specific config and secrets per project.
 
+Use `.firebaserc.example` as a template for local project aliases:
+
+```sh
+cp .firebaserc.example .firebaserc
+```
+
 ## Validation
 
 Routes accept any object with a `.parse(value)` method as a schema. `@app/validation` provides a tiny built-in schema helper for simple boilerplate cases:

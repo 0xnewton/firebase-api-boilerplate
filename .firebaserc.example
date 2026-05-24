@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "dev": "your-dev-project-id",
+    "staging": "your-staging-project-id",
+    "prod": "your-prod-project-id"
+  }
+}

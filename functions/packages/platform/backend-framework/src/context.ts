@@ -17,6 +17,8 @@ export type RequestContext = RuntimeContext & {
     params: Record<string, string>;
     body: unknown;
     cookies: Record<string, string>;
+    ip?: string;
+    userAgent?: string;
   };
   response: {
     statusCode: number;

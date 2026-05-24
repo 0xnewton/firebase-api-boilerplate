@@ -171,6 +171,8 @@ function buildRequestContext(
       params: {},
       body: request.body,
       cookies: parseCookies(headers.cookie),
+      ip: getClientIp(headers),
+      userAgent: headers["user-agent"],
     },
     response: {
       statusCode: 404,
@@ -256,6 +258,17 @@ function getBearerToken(header: string | undefined): string | undefined {
 
   const [scheme, token] = header.split(" ");
   return scheme?.toLowerCase() === "bearer" ? token : undefined;
+}
+
+function getClientIp(
+  headers: Record<string, string | undefined>
+): string | undefined {
+  const forwardedFor = headers["x-forwarded-for"];
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0]?.trim();
+  }
+
+  return headers["x-real-ip"];
 }
 
 function parseCookies(header: string | undefined): Record<string, string> {
