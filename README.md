@@ -9,6 +9,7 @@ functions/
   packages/
     platform/
       backend-framework/
+      firebase-auth/
       logger/
     services/
       health/
@@ -91,6 +92,7 @@ Packages use real workspace imports:
 
 ```ts
 import {Controller, Route} from "@app/backend-framework";
+import {createFirebaseAuthMiddleware} from "@app/firebase-auth";
 import {Logger} from "@app/logger";
 import {HealthService} from "@app/health-service";
 ```
@@ -109,6 +111,20 @@ logger.exception("Request failed", error);
 ```
 
 Log entries automatically include request context such as service name, stage, request id, method, and path.
+
+## Firebase Auth
+
+Use `@app/firebase-auth` to validate Firebase ID tokens from `Authorization: Bearer <token>` headers:
+
+```ts
+createHttpRouter({
+  context,
+  controllers,
+  middlewares: [createFirebaseAuthMiddleware()],
+});
+```
+
+Routes marked with `authenticated: true` require a bearer token and verified claims. The middleware stores the decoded Firebase token on `context.claims`, which is then passed to the controller route args.
 
 ## Adding A Service
 

@@ -28,7 +28,7 @@ export type HttpResponse = {
 
 type ControllerClass = new () => Controller;
 
-type Authenticator = (
+export type Authenticator = (
   token: string,
   context: RequestContext
 ) => Promise<unknown>;
@@ -125,9 +125,12 @@ function buildRouteMiddleware(
         throw new UnauthorizedError();
       }
 
-      context.claims = authenticate ?
-        await authenticate(context.authToken, context) :
-        {token: context.authToken};
+      if (authenticate) {
+        context.claims = await authenticate(context.authToken, context);
+      } else if (!context.claims) {
+        throw new UnauthorizedError();
+      }
+
       routeArgs.token = context.authToken;
       routeArgs.claims = context.claims;
     }

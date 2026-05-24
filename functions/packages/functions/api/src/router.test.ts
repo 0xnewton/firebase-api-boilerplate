@@ -339,6 +339,66 @@ test("protects authenticated routes and passes resolved claims", async () => {
   });
 });
 
+test("uses claims resolved by auth middleware", async () => {
+  const router = createHttpRouter({
+    context: {
+      serviceName: "test-api",
+    },
+    controllers: [PrivateController],
+    middlewares: [
+      async (context, next) => {
+        context.claims = {sub: "middleware-user"};
+        await next();
+      },
+    ],
+  });
+
+  const response = await invoke(
+    router,
+    request({
+      url: "/private",
+      headers: {
+        authorization: "Bearer verified-token",
+      },
+    })
+  );
+
+  assert.equal(response.statusCode, 200);
+  assert.deepEqual(response.body, {
+    code: "OK",
+    message: "OK",
+    data: {
+      sub: "middleware-user",
+    },
+  });
+});
+
+test("rejects authenticated routes without verified claims", async () => {
+  const router = createHttpRouter({
+    context: {
+      serviceName: "test-api",
+    },
+    controllers: [PrivateController],
+  });
+
+  const response = await invoke(
+    router,
+    request({
+      url: "/private",
+      headers: {
+        authorization: "Bearer unverified-token",
+      },
+    })
+  );
+
+  assert.equal(response.statusCode, 401);
+  assert.deepEqual(response.body, {
+    code: "UNAUTHORIZED",
+    message: "Unauthorized",
+    data: undefined,
+  });
+});
+
 test("returns framework HTTP errors thrown from route handlers", async () => {
   const router = createHttpRouter({
     context: {

@@ -13,13 +13,7 @@
   ],
   "references": [
     {
-      "path": "../../platform/backend-framework"
-    },
-    {
-      "path": "../../platform/firebase-auth"
-    },
-    {
-      "path": "../../services/health"
+      "path": "../backend-framework"
     }
   ]
 }

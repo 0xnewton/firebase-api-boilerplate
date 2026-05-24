@@ -5,6 +5,9 @@
       "path": "./backend-framework"
     },
     {
+      "path": "./firebase-auth"
+    },
+    {
       "path": "./logger"
     }
   ]
